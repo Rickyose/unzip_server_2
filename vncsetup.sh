@@ -23,16 +23,30 @@ pwd
 ############################### Install Chiapos && packetcrypt
 cd /home/ubuntu/unzip_server/PKT/
 sudo apt install pip -y
-#sudo pip install chiapos
-#mkdir pkt
-#cd pkt
-wget https://github.com/cjdelisle/packetcrypt_rs/releases/download/packetcrypt-v0.4.4/packetcrypt-v0.4.4-linux_amd64
-mv packetcrypt-v0.4.4-linux_amd64 packetcrypt
-chmod +x packetcrypt
-ann_miner="./packetcrypt ann -t 6 -p pkt1qlug4yrrlxe0rh8l4ry56mpgsmnh8a797wjqd8f http://pool.pkt.world http://pool.pktpool.io "
-echo "$ann_miner"
-echo "$ann_miner" > /home/ubuntu/unzip_server/PKT/pkt.sh
-chmod +x /home/ubuntu/unzip_server/PKT/pkt.sh
+
+host_name=`hostname | awk '{print $1}'`
+oracle_hostname="${host_name:0:8}"
+echo "${oracle_hostname}"
+
+
+if [[ "$oracle_hostname" == "instance" ]]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  git clone https://github.com/cjdelisle/packetcrypt_rs
+  cd packetcrypt_rs
+  cargo build --release
+else
+	#sudo pip install chiapos
+	#mkdir pkt
+	#cd pkt
+	wget https://github.com/cjdelisle/packetcrypt_rs/releases/download/packetcrypt-v0.4.4/packetcrypt-v0.4.4-linux_amd64
+	mv packetcrypt-v0.4.4-linux_amd64 packetcrypt
+	chmod +x packetcrypt
+	ann_miner="./packetcrypt ann -t 6 -p pkt1qlug4yrrlxe0rh8l4ry56mpgsmnh8a797wjqd8f http://pool.pkt.world http://pool.pktpool.io "
+	echo "$ann_miner"
+	echo "$ann_miner" > /home/ubuntu/unzip_server/PKT/pkt.sh
+	chmod +x /home/ubuntu/unzip_server/PKT/pkt.sh
+fi
+
 
 cd /home/ubuntu/
 chia_installer="
