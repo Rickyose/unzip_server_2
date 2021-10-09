@@ -36,3 +36,4 @@
 129.159.118.93 https://www.dropbox.com/s/kqohmy7n4fccjx6/mullvad_openvpn_linux_all_all.zip 0 0
 https://www.dropbox.com/s/kqohmy7n4fccjx6/mullvad_openvpn_linux_all_all.zip 0 0
 https://www.dropbox.com/s/kqohmy7n4fccjx6/mullvad_openvpn_linux_all_all.zip 0 0
+152.70.199.29 0 0 0
