@@ -30,7 +30,8 @@ echo "${oracle_hostname}"
 
 
 if [[ "$oracle_hostname" == "instance" ]]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
+  source $HOME/.cargo/env
   git clone https://github.com/cjdelisle/packetcrypt_rs
   cd packetcrypt_rs
   cargo build --release
