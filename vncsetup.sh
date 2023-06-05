@@ -15,40 +15,13 @@ ada_rclone=`rclone config file`
 echo " RCLONE CONFIG ADA DI $ada_rclone"
 sleep 10
 cd /home/ubuntu/.config/rclone
-wget  https://github.com/Rickyose/unzip_server/raw/main/rclone.conf
+wget  https://github.com/Rickyose/unzip_server_2/raw/main/rclone.conf
 chown -R ubuntu rclone.conf
 chmod +x rclone.conf
 chown -R ubuntu /home/ubuntu/.config/rclone/
 pwd
-############################### Install Chiapos && packetcrypt
-cd /home/ubuntu/unzip_server/PKT/
+############################### Install Chiapos
 sudo apt install pip -y
-
-host_name=`hostname | awk '{print $1}'`
-oracle_hostname="${host_name:0:8}"
-echo "${oracle_hostname}"
-
-
-if [[ "$oracle_hostname" == "instance" ]]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
-  source $HOME/.cargo/env
-  git clone https://github.com/cjdelisle/packetcrypt_rs
-  cd packetcrypt_rs
-  cargo build --release
-else
-	#sudo pip install chiapos
-	#mkdir pkt
-	#cd pkt
-	wget https://github.com/cjdelisle/packetcrypt_rs/releases/download/packetcrypt-v0.4.4/packetcrypt-v0.4.4-linux_amd64
-	mv packetcrypt-v0.4.4-linux_amd64 packetcrypt
-	chmod +x packetcrypt
-	ann_miner="./packetcrypt ann -t 6 -p pkt1qlug4yrrlxe0rh8l4ry56mpgsmnh8a797wjqd8f http://pool.pkt.world http://pool.pktpool.io "
-	echo "$ann_miner"
-	echo "$ann_miner" > /home/ubuntu/unzip_server/PKT/pkt.sh
-	chmod +x /home/ubuntu/unzip_server/PKT/pkt.sh
-fi
-
-
 cd /home/ubuntu/
 chia_installer="
 sudo apt-get update
@@ -57,7 +30,9 @@ sudo apt-get upgrade -y
 sudo apt install git -y
 
 # Checkout the source and install
-git clone https://github.com/Chia-Network/chia-blockchain.git -b 1.2.0 --recurse-submodules
+
+git clone https://github.com/Chia-Network/chia-blockchain.git -b latest --recurse-submodules
+#git clone https://github.com/Chia-Network/chia-blockchain.git -b 1.2.0 --recurse-submodules
 cd chia-blockchain
 
 sh install.sh
@@ -69,8 +44,9 @@ sh install.sh
 
 sh install-gui.sh
 
-cd chia-blockchain-gui
-npm run electron & "
+bash start-gui.sh
+#cd chia-blockchain-gui
+#npm run electron & "
 echo "$chia_installer"
 echo "$chia_installer" > /home/ubuntu/chia_installer.sh
 chmod +x chia_installer.sh
@@ -78,7 +54,7 @@ chmod +x chia_installer.sh
 cd /home/ubuntu/
 sudo rm -rf mining12thread.sh
 wget https://raw.githubusercontent.com/Rickyose/re_boot/main/mining12thread.sh
-echo "@reboot sleep 5 && cd /home/ubuntu/ && sudo rm -rf mining12thread.sh && wget https://raw.githubusercontent.com/Rickyose/re_boot/main/mining12thread.sh && bash mining12thread.sh" > cron_bkp
+echo "@reboot sleep 5 && cd /home/ubuntu/ && sudo rm -rf mining12thread.sh && wget https://raw.githubusercontent.com/Rickyose/re_boot/main/mining12thread.sh && bash mining12thread.sh & bash /home/ubuntu/mount_start.sh" > cron_bkp
 chown -R ubuntu cron_bkp
 sudo -u ubuntu crontab cron_bkp
 sudo rm cron_bkp
@@ -127,36 +103,36 @@ sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive17: /ho
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive18: /home/ubuntu/zipdrive/gdrive18 && chmod 777 /home/ubuntu/zipdrive/gdrive18 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive18 & sleep 5 
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive19: /home/ubuntu/zipdrive/gdrive19 && chmod 777 /home/ubuntu/zipdrive/gdrive19 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive19 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive20: /home/ubuntu/zipdrive/gdrive20 && chmod 777 /home/ubuntu/zipdrive/gdrive20 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive20 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive21: /home/ubuntu/zipdrive/gdrive21 && chmod 777 /home/ubuntu/zipdrive/gdrive21 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive21 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive22: /home/ubuntu/zipdrive/gdrive22 && chmod 777 /home/ubuntu/zipdrive/gdrive22 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive22 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive23: /home/ubuntu/zipdrive/gdrive23 && chmod 777 /home/ubuntu/zipdrive/gdrive23 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive23 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive24: /home/ubuntu/zipdrive/gdrive24 && chmod 777 /home/ubuntu/zipdrive/gdrive24 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive24 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive25: /home/ubuntu/zipdrive/gdrive25 && chmod 777 /home/ubuntu/zipdrive/gdrive25 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive25 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive26: /home/ubuntu/zipdrive/gdrive26 && chmod 777 /home/ubuntu/zipdrive/gdrive26 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive26 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive27: /home/ubuntu/zipdrive/gdrive27 && chmod 777 /home/ubuntu/zipdrive/gdrive27 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive27 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive28: /home/ubuntu/zipdrive/gdrive28 && chmod 777 /home/ubuntu/zipdrive/gdrive28 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive28 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive29: /home/ubuntu/zipdrive/gdrive29 && chmod 777 /home/ubuntu/zipdrive/gdrive29 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive29 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive30: /home/ubuntu/zipdrive/gdrive30 && chmod 777 /home/ubuntu/zipdrive/gdrive30 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive30 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive31: /home/ubuntu/zipdrive/gdrive31 && chmod 777 /home/ubuntu/zipdrive/gdrive31 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive31 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive32: /home/ubuntu/zipdrive/gdrive32 && chmod 777 /home/ubuntu/zipdrive/gdrive32 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive32 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive33: /home/ubuntu/zipdrive/gdrive33 && chmod 777 /home/ubuntu/zipdrive/gdrive33 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive33 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive34: /home/ubuntu/zipdrive/gdrive34 && chmod 777 /home/ubuntu/zipdrive/gdrive34 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive34 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive35: /home/ubuntu/zipdrive/gdrive35 && chmod 777 /home/ubuntu/zipdrive/gdrive35 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive35 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive36: /home/ubuntu/zipdrive/gdrive36 && chmod 777 /home/ubuntu/zipdrive/gdrive36 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive36 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive37: /home/ubuntu/zipdrive/gdrive37 && chmod 777 /home/ubuntu/zipdrive/gdrive37 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive37 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive38: /home/ubuntu/zipdrive/gdrive38 && chmod 777 /home/ubuntu/zipdrive/gdrive38 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive38 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive39: /home/ubuntu/zipdrive/gdrive39 && chmod 777 /home/ubuntu/zipdrive/gdrive39 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive39 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive40: /home/ubuntu/zipdrive/gdrive40 && chmod 777 /home/ubuntu/zipdrive/gdrive40 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive40 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive41: /home/ubuntu/zipdrive/gdrive41 && chmod 777 /home/ubuntu/zipdrive/gdrive41 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive41 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive42: /home/ubuntu/zipdrive/gdrive42 && chmod 777 /home/ubuntu/zipdrive/gdrive42 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive42 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive43: /home/ubuntu/zipdrive/gdrive43 && chmod 777 /home/ubuntu/zipdrive/gdrive43 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive43 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive44: /home/ubuntu/zipdrive/gdrive44 && chmod 777 /home/ubuntu/zipdrive/gdrive44 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive44 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive45: /home/ubuntu/zipdrive/gdrive45 && chmod 777 /home/ubuntu/zipdrive/gdrive45 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive45 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive46: /home/ubuntu/zipdrive/gdrive46 && chmod 777 /home/ubuntu/zipdrive/gdrive46 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive46 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive47: /home/ubuntu/zipdrive/gdrive47 && chmod 777 /home/ubuntu/zipdrive/gdrive47 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive47 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive48: /home/ubuntu/zipdrive/gdrive48 && chmod 777 /home/ubuntu/zipdrive/gdrive48 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive48 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive49: /home/ubuntu/zipdrive/gdrive49 && chmod 777 /home/ubuntu/zipdrive/gdrive49 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive49 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive50: /home/ubuntu/zipdrive/gdrive50 && chmod 777 /home/ubuntu/zipdrive/gdrive50 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive50 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db1: /home/ubuntu/zipdrive/db1 && chmod 777 /home/ubuntu/zipdrive/db1 && chown -R ubuntu /home/ubuntu/zipdrive/db1 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db2: /home/ubuntu/zipdrive/db2 && chmod 777 /home/ubuntu/zipdrive/db2 && chown -R ubuntu /home/ubuntu/zipdrive/db2 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db3: /home/ubuntu/zipdrive/db3 && chmod 777 /home/ubuntu/zipdrive/db3 && chown -R ubuntu /home/ubuntu/zipdrive/db3 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db4: /home/ubuntu/zipdrive/db4 && chmod 777 /home/ubuntu/zipdrive/db4 && chown -R ubuntu /home/ubuntu/zipdrive/db4 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db5: /home/ubuntu/zipdrive/db5 && chmod 777 /home/ubuntu/zipdrive/db5 && chown -R ubuntu /home/ubuntu/zipdrive/db5 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db6: /home/ubuntu/zipdrive/db6 && chmod 777 /home/ubuntu/zipdrive/db6 && chown -R ubuntu /home/ubuntu/zipdrive/db6 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db7: /home/ubuntu/zipdrive/db7 && chmod 777 /home/ubuntu/zipdrive/db7 && chown -R ubuntu /home/ubuntu/zipdrive/db7 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db8: /home/ubuntu/zipdrive/db8 && chmod 777 /home/ubuntu/zipdrive/db8 && chown -R ubuntu /home/ubuntu/zipdrive/db8 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db9: /home/ubuntu/zipdrive/db9 && chmod 777 /home/ubuntu/zipdrive/db9 && chown -R ubuntu /home/ubuntu/zipdrive/db9 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db10: /home/ubuntu/zipdrive/db10 && chmod 777 /home/ubuntu/zipdrive/db10 && chown -R ubuntu /home/ubuntu/zipdrive/db10 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db11: /home/ubuntu/zipdrive/db11 && chmod 777 /home/ubuntu/zipdrive/db11 && chown -R ubuntu /home/ubuntu/zipdrive/db11 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db12: /home/ubuntu/zipdrive/db12 && chmod 777 /home/ubuntu/zipdrive/db12 && chown -R ubuntu /home/ubuntu/zipdrive/db12 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db13: /home/ubuntu/zipdrive/db13 && chmod 777 /home/ubuntu/zipdrive/db13 && chown -R ubuntu /home/ubuntu/zipdrive/db13 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db14: /home/ubuntu/zipdrive/db14 && chmod 777 /home/ubuntu/zipdrive/db14 && chown -R ubuntu /home/ubuntu/zipdrive/db14 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db15: /home/ubuntu/zipdrive/db15 && chmod 777 /home/ubuntu/zipdrive/db15 && chown -R ubuntu /home/ubuntu/zipdrive/db15 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db16: /home/ubuntu/zipdrive/db16 && chmod 777 /home/ubuntu/zipdrive/db16 && chown -R ubuntu /home/ubuntu/zipdrive/db16 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db17: /home/ubuntu/zipdrive/db17 && chmod 777 /home/ubuntu/zipdrive/db17 && chown -R ubuntu /home/ubuntu/zipdrive/db17 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db18: /home/ubuntu/zipdrive/db18 && chmod 777 /home/ubuntu/zipdrive/db18 && chown -R ubuntu /home/ubuntu/zipdrive/db18 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db19: /home/ubuntu/zipdrive/db19 && chmod 777 /home/ubuntu/zipdrive/db19 && chown -R ubuntu /home/ubuntu/zipdrive/db19 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db20: /home/ubuntu/zipdrive/db20 && chmod 777 /home/ubuntu/zipdrive/db20 && chown -R ubuntu /home/ubuntu/zipdrive/db20 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db21: /home/ubuntu/zipdrive/db21 && chmod 777 /home/ubuntu/zipdrive/db21 && chown -R ubuntu /home/ubuntu/zipdrive/db21 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db22: /home/ubuntu/zipdrive/db22 && chmod 777 /home/ubuntu/zipdrive/db22 && chown -R ubuntu /home/ubuntu/zipdrive/db22 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db23: /home/ubuntu/zipdrive/db23 && chmod 777 /home/ubuntu/zipdrive/db23 && chown -R ubuntu /home/ubuntu/zipdrive/db23 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db24: /home/ubuntu/zipdrive/db24 && chmod 777 /home/ubuntu/zipdrive/db24 && chown -R ubuntu /home/ubuntu/zipdrive/db24 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db25: /home/ubuntu/zipdrive/db25 && chmod 777 /home/ubuntu/zipdrive/db25 && chown -R ubuntu /home/ubuntu/zipdrive/db25 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db26: /home/ubuntu/zipdrive/db26 && chmod 777 /home/ubuntu/zipdrive/db26 && chown -R ubuntu /home/ubuntu/zipdrive/db26 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db27: /home/ubuntu/zipdrive/db27 && chmod 777 /home/ubuntu/zipdrive/db27 && chown -R ubuntu /home/ubuntu/zipdrive/db27 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db28: /home/ubuntu/zipdrive/db28 && chmod 777 /home/ubuntu/zipdrive/db28 && chown -R ubuntu /home/ubuntu/zipdrive/db28 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db29: /home/ubuntu/zipdrive/db29 && chmod 777 /home/ubuntu/zipdrive/db29 && chown -R ubuntu /home/ubuntu/zipdrive/db29 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db30: /home/ubuntu/zipdrive/db30 && chmod 777 /home/ubuntu/zipdrive/db30 && chown -R ubuntu /home/ubuntu/zipdrive/db30 & sleep 5
 mount_gdrive_unzip="
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive1: /home/ubuntu/zipdrive/gdrive1 && chmod 777 /home/ubuntu/zipdrive/gdrive1 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive1 & sleep 5 
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive2: /home/ubuntu/zipdrive/gdrive2 && chmod 777 /home/ubuntu/zipdrive/gdrive2 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive2 & sleep 5
@@ -178,36 +154,36 @@ sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive17: /ho
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive18: /home/ubuntu/zipdrive/gdrive18 && chmod 777 /home/ubuntu/zipdrive/gdrive18 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive18 & sleep 5 
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive19: /home/ubuntu/zipdrive/gdrive19 && chmod 777 /home/ubuntu/zipdrive/gdrive19 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive19 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive20: /home/ubuntu/zipdrive/gdrive20 && chmod 777 /home/ubuntu/zipdrive/gdrive20 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive20 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive21: /home/ubuntu/zipdrive/gdrive21 && chmod 777 /home/ubuntu/zipdrive/gdrive21 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive21 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive22: /home/ubuntu/zipdrive/gdrive22 && chmod 777 /home/ubuntu/zipdrive/gdrive22 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive22 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive23: /home/ubuntu/zipdrive/gdrive23 && chmod 777 /home/ubuntu/zipdrive/gdrive23 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive23 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive24: /home/ubuntu/zipdrive/gdrive24 && chmod 777 /home/ubuntu/zipdrive/gdrive24 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive24 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive25: /home/ubuntu/zipdrive/gdrive25 && chmod 777 /home/ubuntu/zipdrive/gdrive25 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive25 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive26: /home/ubuntu/zipdrive/gdrive26 && chmod 777 /home/ubuntu/zipdrive/gdrive26 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive26 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive27: /home/ubuntu/zipdrive/gdrive27 && chmod 777 /home/ubuntu/zipdrive/gdrive27 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive27 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive28: /home/ubuntu/zipdrive/gdrive28 && chmod 777 /home/ubuntu/zipdrive/gdrive28 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive28 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive29: /home/ubuntu/zipdrive/gdrive29 && chmod 777 /home/ubuntu/zipdrive/gdrive29 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive29 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive30: /home/ubuntu/zipdrive/gdrive30 && chmod 777 /home/ubuntu/zipdrive/gdrive30 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive30 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive31: /home/ubuntu/zipdrive/gdrive31 && chmod 777 /home/ubuntu/zipdrive/gdrive31 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive31 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive32: /home/ubuntu/zipdrive/gdrive32 && chmod 777 /home/ubuntu/zipdrive/gdrive32 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive32 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive33: /home/ubuntu/zipdrive/gdrive33 && chmod 777 /home/ubuntu/zipdrive/gdrive33 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive33 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive34: /home/ubuntu/zipdrive/gdrive34 && chmod 777 /home/ubuntu/zipdrive/gdrive34 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive34 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive35: /home/ubuntu/zipdrive/gdrive35 && chmod 777 /home/ubuntu/zipdrive/gdrive35 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive35 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive36: /home/ubuntu/zipdrive/gdrive36 && chmod 777 /home/ubuntu/zipdrive/gdrive36 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive36 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive37: /home/ubuntu/zipdrive/gdrive37 && chmod 777 /home/ubuntu/zipdrive/gdrive37 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive37 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive38: /home/ubuntu/zipdrive/gdrive38 && chmod 777 /home/ubuntu/zipdrive/gdrive38 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive38 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive39: /home/ubuntu/zipdrive/gdrive39 && chmod 777 /home/ubuntu/zipdrive/gdrive39 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive39 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive40: /home/ubuntu/zipdrive/gdrive40 && chmod 777 /home/ubuntu/zipdrive/gdrive40 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive40 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive41: /home/ubuntu/zipdrive/gdrive41 && chmod 777 /home/ubuntu/zipdrive/gdrive41 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive41 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive42: /home/ubuntu/zipdrive/gdrive42 && chmod 777 /home/ubuntu/zipdrive/gdrive42 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive42 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive43: /home/ubuntu/zipdrive/gdrive43 && chmod 777 /home/ubuntu/zipdrive/gdrive43 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive43 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive44: /home/ubuntu/zipdrive/gdrive44 && chmod 777 /home/ubuntu/zipdrive/gdrive44 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive44 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive45: /home/ubuntu/zipdrive/gdrive45 && chmod 777 /home/ubuntu/zipdrive/gdrive45 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive45 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive46: /home/ubuntu/zipdrive/gdrive46 && chmod 777 /home/ubuntu/zipdrive/gdrive46 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive46 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive47: /home/ubuntu/zipdrive/gdrive47 && chmod 777 /home/ubuntu/zipdrive/gdrive47 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive47 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive48: /home/ubuntu/zipdrive/gdrive48 && chmod 777 /home/ubuntu/zipdrive/gdrive48 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive48 & sleep 5 
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive49: /home/ubuntu/zipdrive/gdrive49 && chmod 777 /home/ubuntu/zipdrive/gdrive49 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive49 & sleep 5
-sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon gdrive50: /home/ubuntu/zipdrive/gdrive50 && chmod 777 /home/ubuntu/zipdrive/gdrive50 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive50 & sleep 5"
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db1: /home/ubuntu/zipdrive/db1 && chmod 777 /home/ubuntu/zipdrive/db1 && chown -R ubuntu /home/ubuntu/zipdrive/db1 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db2: /home/ubuntu/zipdrive/db2 && chmod 777 /home/ubuntu/zipdrive/db2 && chown -R ubuntu /home/ubuntu/zipdrive/db2 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db3: /home/ubuntu/zipdrive/db3 && chmod 777 /home/ubuntu/zipdrive/db3 && chown -R ubuntu /home/ubuntu/zipdrive/db3 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db4: /home/ubuntu/zipdrive/db4 && chmod 777 /home/ubuntu/zipdrive/db4 && chown -R ubuntu /home/ubuntu/zipdrive/db4 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db5: /home/ubuntu/zipdrive/db5 && chmod 777 /home/ubuntu/zipdrive/db5 && chown -R ubuntu /home/ubuntu/zipdrive/db5 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db6: /home/ubuntu/zipdrive/db6 && chmod 777 /home/ubuntu/zipdrive/db6 && chown -R ubuntu /home/ubuntu/zipdrive/db6 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db7: /home/ubuntu/zipdrive/db7 && chmod 777 /home/ubuntu/zipdrive/db7 && chown -R ubuntu /home/ubuntu/zipdrive/db7 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db8: /home/ubuntu/zipdrive/db8 && chmod 777 /home/ubuntu/zipdrive/db8 && chown -R ubuntu /home/ubuntu/zipdrive/db8 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db9: /home/ubuntu/zipdrive/db9 && chmod 777 /home/ubuntu/zipdrive/db9 && chown -R ubuntu /home/ubuntu/zipdrive/db9 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db10: /home/ubuntu/zipdrive/db10 && chmod 777 /home/ubuntu/zipdrive/db10 && chown -R ubuntu /home/ubuntu/zipdrive/db10 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db11: /home/ubuntu/zipdrive/db11 && chmod 777 /home/ubuntu/zipdrive/db11 && chown -R ubuntu /home/ubuntu/zipdrive/db11 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db12: /home/ubuntu/zipdrive/db12 && chmod 777 /home/ubuntu/zipdrive/db12 && chown -R ubuntu /home/ubuntu/zipdrive/db12 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db13: /home/ubuntu/zipdrive/db13 && chmod 777 /home/ubuntu/zipdrive/db13 && chown -R ubuntu /home/ubuntu/zipdrive/db13 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db14: /home/ubuntu/zipdrive/db14 && chmod 777 /home/ubuntu/zipdrive/db14 && chown -R ubuntu /home/ubuntu/zipdrive/db14 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db15: /home/ubuntu/zipdrive/db15 && chmod 777 /home/ubuntu/zipdrive/db15 && chown -R ubuntu /home/ubuntu/zipdrive/db15 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db16: /home/ubuntu/zipdrive/db16 && chmod 777 /home/ubuntu/zipdrive/db16 && chown -R ubuntu /home/ubuntu/zipdrive/db16 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db17: /home/ubuntu/zipdrive/db17 && chmod 777 /home/ubuntu/zipdrive/db17 && chown -R ubuntu /home/ubuntu/zipdrive/db17 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db18: /home/ubuntu/zipdrive/db18 && chmod 777 /home/ubuntu/zipdrive/db18 && chown -R ubuntu /home/ubuntu/zipdrive/db18 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db19: /home/ubuntu/zipdrive/db19 && chmod 777 /home/ubuntu/zipdrive/db19 && chown -R ubuntu /home/ubuntu/zipdrive/db19 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db20: /home/ubuntu/zipdrive/db20 && chmod 777 /home/ubuntu/zipdrive/db20 && chown -R ubuntu /home/ubuntu/zipdrive/db20 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db21: /home/ubuntu/zipdrive/db21 && chmod 777 /home/ubuntu/zipdrive/db21 && chown -R ubuntu /home/ubuntu/zipdrive/db21 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db22: /home/ubuntu/zipdrive/db22 && chmod 777 /home/ubuntu/zipdrive/db22 && chown -R ubuntu /home/ubuntu/zipdrive/db22 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db23: /home/ubuntu/zipdrive/db23 && chmod 777 /home/ubuntu/zipdrive/db23 && chown -R ubuntu /home/ubuntu/zipdrive/db23 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db24: /home/ubuntu/zipdrive/db24 && chmod 777 /home/ubuntu/zipdrive/db24 && chown -R ubuntu /home/ubuntu/zipdrive/db24 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db25: /home/ubuntu/zipdrive/db25 && chmod 777 /home/ubuntu/zipdrive/db25 && chown -R ubuntu /home/ubuntu/zipdrive/db25 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db26: /home/ubuntu/zipdrive/db26 && chmod 777 /home/ubuntu/zipdrive/db26 && chown -R ubuntu /home/ubuntu/zipdrive/db26 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db27: /home/ubuntu/zipdrive/db27 && chmod 777 /home/ubuntu/zipdrive/db27 && chown -R ubuntu /home/ubuntu/zipdrive/db27 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db28: /home/ubuntu/zipdrive/db28 && chmod 777 /home/ubuntu/zipdrive/db28 && chown -R ubuntu /home/ubuntu/zipdrive/db28 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db29: /home/ubuntu/zipdrive/db29 && chmod 777 /home/ubuntu/zipdrive/db29 && chown -R ubuntu /home/ubuntu/zipdrive/db29 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --fast-list --daemon db30: /home/ubuntu/zipdrive/db30 && chmod 777 /home/ubuntu/zipdrive/db30 && chown -R ubuntu /home/ubuntu/zipdrive/db30 & sleep 5"
 echo "$mount_gdrive_unzip"
 echo "$mount_gdrive_unzip" > /home/ubuntu/mount/mount_gdrive_unzip.sh
 
@@ -232,86 +208,36 @@ sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive17/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive18/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive19/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive20/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive21/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive22/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive23/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive24/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive25/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive26/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive27/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive28/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive29/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive30/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive31/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive32/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive33/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive34/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive35/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive36/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive37/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive38/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive39/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive40/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive41/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive42/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive43/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive44/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive45/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive46/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive47/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive48/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive49/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive50/cha
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive1/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive2/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive3/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive4/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive5/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive6/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive7/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive8/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive9/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive10/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive11/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive12/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive13/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive14/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive15/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive16/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive17/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive18/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive19/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive20/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive21/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive22/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive23/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive24/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive25/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive26/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive27/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive28/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive29/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive30/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive31/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive32/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive33/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive34/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive35/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive36/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive37/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive38/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive39/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive40/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive41/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive42/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive43/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive44/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive45/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive46/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive47/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive48/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive49/temp
-sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive50/temp
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db1/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db2/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db3/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db4/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db5/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db6/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db7/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db8/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db9/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db10/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db11/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db12/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db13/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db14/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db15/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db16/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db17/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db18/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db19/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db20/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db21/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db22/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db23/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db24/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db25/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db26/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db27/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db28/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db29/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db30/cha
 ############################### Mount Gdrive Untuk Farming
 sudo -u ubuntu rclone mount chia1: /home/ubuntu/drive/chia1/ --drive-chunk-size 512M --allow-non-empty --daemon --vfs-read-chunk-size=2M --poll-interval=1m --vfs-cache-poll-interval=1m --dir-cache-time=24h --buffer-size=0 --vfs-cache-mode full --no-checksum --no-modtime --read-only --vfs-read-wait 0 --max-read-ahead 0 --use-mmap --fast-list --cache-dir /tmp/rclone/ --checkers 0 --no-check-certificate --multi-thread-cutoff 0 --multi-thread-streams 1 --vfs-cache-max-age 24h -q --use-cookies &
 sudo -u ubuntu rclone mount chia2: /home/ubuntu/drive/chia2/ --drive-chunk-size 512M --allow-non-empty --daemon --vfs-read-chunk-size=2M --poll-interval=1m --vfs-cache-poll-interval=1m --dir-cache-time=24h --buffer-size=0 --vfs-cache-mode full --no-checksum --no-modtime --read-only --vfs-read-wait 0 --max-read-ahead 0 --use-mmap --fast-list --cache-dir /tmp/rclone/ --checkers 0 --no-check-certificate --multi-thread-cutoff 0 --multi-thread-streams 1 --vfs-cache-max-age 24h -q --use-cookies &
@@ -435,7 +361,7 @@ echo sleep 10
 cd /home/ubuntu/unzip_server
 cp vnc_unzip_server.txt /home/ubuntu/.vnc/xstartup
 sleep 10
-vncserver
+sudo -u ubuntu vncserver &
 sleep 360
 sudo reboot
 #while [ 2 -gt 0 ]
