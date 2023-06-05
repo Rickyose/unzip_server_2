@@ -58,36 +58,36 @@ mkdir gdrive17
 mkdir gdrive18
 mkdir gdrive19
 mkdir gdrive20
-mkdir gdrive21
-mkdir gdrive22
-mkdir gdrive23
-mkdir gdrive24
-mkdir gdrive25
-mkdir gdrive26
-mkdir gdrive27
-mkdir gdrive28
-mkdir gdrive29
-mkdir gdrive30
-mkdir gdrive31
-mkdir gdrive32
-mkdir gdrive33
-mkdir gdrive34
-mkdir gdrive35
-mkdir gdrive36
-mkdir gdrive37
-mkdir gdrive38
-mkdir gdrive39
-mkdir gdrive40
-mkdir gdrive41
-mkdir gdrive42
-mkdir gdrive43
-mkdir gdrive44
-mkdir gdrive45
-mkdir gdrive46
-mkdir gdrive47
-mkdir gdrive48
-mkdir gdrive49
-mkdir gdrive50
+mkdir db1
+mkdir db2
+mkdir db3
+mkdir db4
+mkdir db5
+mkdir db6
+mkdir db7
+mkdir db8
+mkdir db9
+mkdir db10
+mkdir db11
+mkdir db12
+mkdir db13
+mkdir db14
+mkdir db15
+mkdir db16
+mkdir db17
+mkdir db18
+mkdir db19
+mkdir db20
+mkdir db21
+mkdir db22
+mkdir db23
+mkdir db24
+mkdir db25
+mkdir db26
+mkdir db27
+mkdir db28
+mkdir db29
+mkdir db30
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive1
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive2
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive3
@@ -108,36 +108,36 @@ sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive17
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive18
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive19
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive20
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive21
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive22
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive23
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive24
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive25
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive26
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive27
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive28
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive29
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive30
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive31
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive32
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive33
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive34
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive35
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive36
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive37
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive38
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive39
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive40
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive41
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive42
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive43
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive44
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive45
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive46
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive47
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive48
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive49
-sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/gdrive50
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db1
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db2
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db3
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db4
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db5
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db6
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db7
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db8
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db9
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db10
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db11
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db12
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db13
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db14
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db15
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db16
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db17
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db18
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db19
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db20
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db21
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db22
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db23
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db24
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db25
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db26
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db27
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db28
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db29
+sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db30
 wget https://raw.githubusercontent.com/Rickyose/unzip_server/main/vncserver.service && mv -f vncserver.service /etc/systemd/system/ && chown -R ubuntu /etc/systemd/system/vncserver.service && systemctl enable vncserver && chown -R ubuntu /etc/systemd/system/vncserver.service
 cd /home/ubuntu/
 mkdir drive
