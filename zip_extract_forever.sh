@@ -1,7 +1,7 @@
 #!/bin/bash
 v_source_dir=null
 v_dest_dir=null
-export max_unzip=3
+export max_unzip=6
 export initiate_start=0
 export total_plot_success=0
 export total_plot_failed=0
@@ -144,57 +144,46 @@ fun_old_zip_source()
 }
 
 ps ux | grep unzip | grep -v grep | wc -l
-v_line_count=`cat /home/ubuntu/dest_dir_list.txt | wc -l`
+s_line_count=`cat /home/ubuntu/source_dir_list.txt | wc -l`
+d_line_count=`cat /home/ubuntu/dest_dir_list.txt | wc -l`
 
 fun_ext_rem()
 {
+echo "FUN_EXT_REM_START"
 if [ $upload_check -lt 200000 ]; then
+	 zip_count=0
      source_zip=`ls -lrth ${v_source_dir} |grep '.zip'|  head -1 | awk '{print $9}'`
 	 zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
 	 if [ $zip_count -gt 0 ] ; then 
 		echo "oldest file in $v_source_dir is $source_zip .."
 		if [ `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -le 0 ] && [ `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -le 0 ]; then
+			old_count_plot=`find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c`
+			echo "unzipping ${v_source_dir}/${source_zip} in $v_dest_dir .."
+			find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
+			unzip -jo ${v_source_dir}/${source_zip} -d ${v_dest_dir}/
+			sleep 5
+			rm -rf ${v_source_dir}/${source_zip}
+			sleep 15
 			rm -rf ${v_dest_dir}/${ips}.${N}.txt
 			rm -rf ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip
+			sleep 10
+			find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
+			sleep 10
+			if [  `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt  $old_count_plot ];then
+				echo "unzip completed successfully for directory ${v_source_dir}"
+				rm -f ${v_source_dir}/${source_zip} > /dev/null
+				echo "Deleted zip file ${v_source_dir}/${source_zip} successfully"
+			else
+				find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
+			fi 
+			echo "membersihkan recycle bin gdrive${N}"
+			sleep 30
+			rclone cleanup gdrive${N}:
+		else
 			rm -rf /home/ubuntu/${ips}.${D}.txt
 			rm -rf /home/ubuntu/${source_zip}.${N}.penanda.source.unzip
-			sleep 3
-			if [ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 ] && [ `ls ${v_source_dir}/ | grep .unzip | wc -l` -le 0  ]; then
-				head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
-				head -c 1000000 </dev/urandom > /home/ubuntu/${source_zip}.${N}.penanda.source.unzip && mv -f /home/ubuntu/${source_zip}.${N}.penanda.source.unzip ${v_source_dir}/
-				sleep 3
-				if [ `wc -c ${v_dest_dir}/${ips}.${N}.txt | awk '{print $1}'` -gt 0 ] && [ `wc -c ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip | awk '{print $1}'` -gt 0 ]; then
-					old_count_plot=`find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c`
-					echo "unzipping ${v_source_dir}/${source_zip} in $v_dest_dir .."
-					find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
-					unzip -jo ${v_source_dir}/${source_zip} -d ${v_dest_dir}/
-					sleep 5
-					rm -rf ${v_dest_dir}/${ips}.${N}.txt
-					rm -rf ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip
-					sleep 10
-					find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
-					sleep 10
-					if [  `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt  $old_count_plot ];then
-						echo "unzip completed successfully for directory ${v_source_dir}"
-						rm -f ${v_source_dir}/${source_zip} > /dev/null
-						echo "Deleted zip file ${v_source_dir}/${source_zip} successfully"
-					else
-						find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
-					fi 
-					echo "membersihkan recycle bin gdrive${N}"
-					sleep 30
-					rclone cleanup gdrive${N}:
-				else
-					rm -rf /home/ubuntu/${ips}.${D}.txt
-					rm -rf /home/ubuntu/${source_zip}.${N}.penanda.source.unzip
-					echo "KUOTA UPLOAD SUDAH HABIS DI DRIVE DESTINATION/SOURCE"
-					sleep 5
-				fi
-			else
-				echo "BARU ADA YG PAKE DI GDRIVE ${v_source_dir}"
-			fi
-		else
-			echo "unzip of directory ${v_source_dir} already  in progress"
+			echo "KUOTA UPLOAD SUDAH HABIS DI DRIVE DESTINATION/SOURCE"
+			sleep 5
 		fi
 	 else
 	 	echo "tidak ada zip di ${v_source_dir}"
@@ -208,24 +197,46 @@ fi
 
 fun_itr()
 {
-export N=0
-export D=0
+export N=1
+export D=1
 echo "PRESS CTRL+C to cancel script AND fun_itr YAHUDDD"
-while [ $N -le $v_line_count ]
+while [ $N -le $s_line_count ]
 do
-	N=$(($N + 1))
+	rm -rf /home/ubuntu/${ips}.${D}.txt
+	rm -rf ${v_dest_dir}/${ips}.${D}.txt
+	sleep 5
 	head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
-	while [ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 ]
+	sleep 5
+	while [[ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 || `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt 22 ||  `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -gt 0 || $(df "$v_dest_dir" | sed -n '2p' | awk '{print $1}') != *"db${D}"* ]]; do
+		rm -rf /home/ubuntu/${ips}.${D}.txt
+		rm -rf ${v_dest_dir}/${ips}.${D}.txt
+		sleep 5
 		D=$(($D + 1))
 		export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
 		head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
-	do
+		sleep 5
+		if [ $D -gt $d_line_count ] ; then
+			D=1
+			sleep 120
+		fi
 	done
 	rm -rf /home/ubuntu/${ips}.${D}.txt
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
+	
 	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-	export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
-	echo Yg dicek adalah account $v_dest_dir
+	zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
+	while [[ $zip_count -le 0 ||  `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
+		N=$(($N + 1))
+		v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
+		zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
+		if [ $N -gt $s_line_count ] ; then
+			zip_count=1
+			sleep 120
+		fi
+	done
+	sleep 3
+	echo Asal Zip $v_source_dir
+	echo Tujuan Zip $v_dest_dir
 	export upload_check=$(fun_cpu_usage)
 	sleep 120
 	while [   `ps ux | grep unzip | grep -v grep | wc -l | awk '{ print $1}'` -ge  $max_unzip ]
@@ -233,7 +244,7 @@ do
 		sleep 60
 	done
 	if [  `ps ux | grep unzip | grep -v grep | wc -l | awk '{ print $1}'` -ge  $max_unzip ]; then
-	sleep 60
+		sleep 60
 	else
 		end=$SECONDS
 		duration=$(( ($end - $start)/3600 ))
