@@ -31,7 +31,7 @@ if [ ! -f /home/ubuntu/dest_dir_list.txt ] || [ ! -f /home/ubuntu/source_dir_lis
 	if [ `ls /home/ubuntu/zipdrive/gdrive"$count_zip_gdrive"/cha/ | grep .plot | wc -l` -gt 0 ]; then
 		echo "/home/ubuntu/zipdrive/gdrive"$count_zip_gdrive"/cha" >> /home/ubuntu/dest_dir_list.txt
 	else
-		if [ "`df -h /home/ubuntu/zipdrive/gdrive"$count_zip_gdrive" | awk '{print $3}' | grep -e G -e T | wc -l`" -eq 0 ]; then
+		if [ "`df -h /home/ubuntu/zipdrive/gdrive"$count_zip_gdrive" | awk '{print $3}' | grep -e G -e T | wc -l`" -le 0 ]; then
 			echo "/home/ubuntu/zipdrive/gdrive"$count_zip_gdrive"/cha" >> /home/ubuntu/dest_dir_list.txt
 		else
 			if [ `ls /home/ubuntu/zipdrive/gdrive"$count_zip_gdrive"/temp/ | grep .zip | wc -l` -gt 0 ]; then
@@ -89,7 +89,7 @@ sleep 60
 
 github_code()
 {
-if [ $initiate_start -eq 1 ]; then
+if [ $initiate_start -le 1 ]; then
 	while [ 100 -gt 1 ]
 	do
 		rm -rf skripburu2
@@ -104,7 +104,7 @@ fi
 
 ftp_script()
 {
-if [ $initiate_start -eq 1 ]; then
+if [ $initiate_start -le 1 ]; then
 	if [ 100 -gt 1 ]; then
 		ip=`curl ifconfig.me`
 		multi_line="
@@ -153,21 +153,21 @@ if [ $upload_check -lt 200000 ]; then
 	 zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
 	 if [ $zip_count -gt 0 ] ; then 
 		echo "oldest file in $v_source_dir is $source_zip .."
-		if [ `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -eq 0 ]; then
+		if [ `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -le 0 ] && [ `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -le 0 ]; then
 			rm -rf ${v_dest_dir}/${ips}.${N}.txt
 			rm -rf ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip
-			rm -rf /home/ubuntu/${ips}.${N}.txt
+			rm -rf /home/ubuntu/${ips}.${D}.txt
 			rm -rf /home/ubuntu/${source_zip}.${N}.penanda.source.unzip
 			sleep 3
-			if [ `ls ${v_dest_dir}/ | grep .txt | wc -l` -eq 0 ] && [ `ls ${v_source_dir}/ | grep .unzip | wc -l` -eq 0  ]; then
-				head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${N}.txt && mv -f /home/ubuntu/${ips}.${N}.txt ${v_dest_dir}/
+			if [ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 ] && [ `ls ${v_source_dir}/ | grep .unzip | wc -l` -le 0  ]; then
+				head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
 				head -c 1000000 </dev/urandom > /home/ubuntu/${source_zip}.${N}.penanda.source.unzip && mv -f /home/ubuntu/${source_zip}.${N}.penanda.source.unzip ${v_source_dir}/
 				sleep 3
 				if [ `wc -c ${v_dest_dir}/${ips}.${N}.txt | awk '{print $1}'` -gt 0 ] && [ `wc -c ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip | awk '{print $1}'` -gt 0 ]; then
 					old_count_plot=`find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c`
 					echo "unzipping ${v_source_dir}/${source_zip} in $v_dest_dir .."
 					find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
-					unzip -o ${v_source_dir}/${source_zip} -d ${v_dest_dir}/
+					unzip -jo ${v_source_dir}/${source_zip} -d ${v_dest_dir}/
 					sleep 5
 					rm -rf ${v_dest_dir}/${ips}.${N}.txt
 					rm -rf ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip
@@ -185,9 +185,7 @@ if [ $upload_check -lt 200000 ]; then
 					sleep 30
 					rclone cleanup gdrive${N}:
 				else
-					rm -rf ${v_dest_dir}/${ips}.${N}.txt
-					rm -rf ${v_source_dir}/${source_zip}.${N}.penanda.source.unzip
-					rm -rf /home/ubuntu/${ips}.${N}.txt
+					rm -rf /home/ubuntu/${ips}.${D}.txt
 					rm -rf /home/ubuntu/${source_zip}.${N}.penanda.source.unzip
 					echo "KUOTA UPLOAD SUDAH HABIS DI DRIVE DESTINATION/SOURCE"
 					sleep 5
@@ -210,14 +208,24 @@ fi
 
 fun_itr()
 {
-export N=1
+export N=0
+export D=0
 echo "PRESS CTRL+C to cancel script AND fun_itr YAHUDDD"
 while [ $N -le $v_line_count ]
 do
-	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-	export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$N"P`
-	echo Yg dicek adalah account $v_dest_dir
 	N=$(($N + 1))
+	head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
+	while [ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 ]
+		D=$(($D + 1))
+		export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
+		head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
+	do
+	done
+	rm -rf /home/ubuntu/${ips}.${D}.txt
+	rm -rf ${v_dest_dir}/${ips}.${D}.txt
+	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
+	export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
+	echo Yg dicek adalah account $v_dest_dir
 	export upload_check=$(fun_cpu_usage)
 	sleep 120
 	while [   `ps ux | grep unzip | grep -v grep | wc -l | awk '{ print $1}'` -ge  $max_unzip ]
@@ -264,7 +272,7 @@ while [ 2 -gt 1 ]
 do
 	echo "PRESS CTRL+C to cancel script"
 	sleep 20
-	if [   $initiate_start -eq  0 ]; then
+	if [   $initiate_start -le  0 ]; then
 		initiate_start=1
 		sleep 5
 		echo Menjalankan Github Code
