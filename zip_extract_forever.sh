@@ -153,7 +153,7 @@ echo "FUN_EXT_REM_START"
 if [ $upload_check -lt 200000 ]; then
 	 zip_count=0
      source_zip=`ls -lrth ${v_source_dir} |grep '.zip'|  head -1 | awk '{print $9}'`
-	 zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
+	 zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
 	 if [ $zip_count -gt 0 ] ; then 
 		echo "oldest file in $v_source_dir is $source_zip .."
 		if [ `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -le 0 ] && [ `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -le 0 ]; then
@@ -224,11 +224,11 @@ do
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
 	
 	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-	zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
+	zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
 	while [[ $zip_count -le 0 ||  `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
 		N=$(($N + 1))
 		v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-		zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +360 |wc -l`
+		zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
 		if [ $N -gt $s_line_count ] ; then
 			zip_count=1
 			sleep 120
