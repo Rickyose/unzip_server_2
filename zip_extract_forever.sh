@@ -200,7 +200,7 @@ fun_itr()
 export N=1
 export D=1
 echo "PRESS CTRL+C to cancel script AND fun_itr YAHUDDD"
-while [ $N -le $s_line_count ]
+while [ 100 -gt 1 ]
 do
 	rm -rf /home/ubuntu/${ips}.${D}.txt
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
@@ -211,27 +211,41 @@ do
 		rm -rf /home/ubuntu/${ips}.${D}.txt
 		rm -rf ${v_dest_dir}/${ips}.${D}.txt
 		sleep 5
-		D=$(($D + 1))
 		export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
 		head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
 		sleep 5
 		if [ $D -gt $d_line_count ] ; then
-			D=1
+			echo Reset dari D = $D
+			export D=1
 			sleep 120
+		fi
+		if [ $D -le 0 ] ; then
+			D=1
+		else
+			D=$(($D + 1))
 		fi
 	done
 	rm -rf /home/ubuntu/${ips}.${D}.txt
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
 	
 	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-	zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+	export zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
 	while [[ $zip_count -le 0 ||  `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
-		N=$(($N + 1))
-		v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-		zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+		sleep 3
+		export v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
+		sleep 3
+		export zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+		sleep 3
 		if [ $N -gt $s_line_count ] ; then
-			zip_count=1
+			echo Reset dari N = $N
+			export zip_count=1
+			export N=1
 			sleep 120
+		fi
+		if [ $N -le 0 ] ; then
+			N=1
+		else
+			N=$(($N + 1))
 		fi
 	done
 	sleep 3
