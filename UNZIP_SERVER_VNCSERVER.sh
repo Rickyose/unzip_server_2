@@ -58,6 +58,16 @@ mkdir gdrive17
 mkdir gdrive18
 mkdir gdrive19
 mkdir gdrive20
+mkdir gdrive21
+mkdir gdrive22
+mkdir gdrive23
+mkdir gdrive24
+mkdir gdrive25
+mkdir gdrive26
+mkdir gdrive27
+mkdir gdrive28
+mkdir gdrive29
+mkdir gdrive30
 mkdir db1
 mkdir db2
 mkdir db3
@@ -138,7 +148,7 @@ sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db27
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db28
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db29
 sudo -u root chown -R ubuntu /home/ubuntu/zipdrive/db30
-wget https://raw.githubusercontent.com/Rickyose/unzip_server_2/main/vncserver.service && mv -f vncserver.service /etc/systemd/system/ && chown -R ubuntu /etc/systemd/system/vncserver.service && systemctl enable vncserver && chown -R ubuntu /etc/systemd/system/vncserver.service
+wget https://raw.githubusercontent.com/Rickyose/unzip_server/main/vncserver.service && mv -f vncserver.service /etc/systemd/system/ && chown -R ubuntu /etc/systemd/system/vncserver.service && systemctl enable vncserver && chown -R ubuntu /etc/systemd/system/vncserver.service
 cd /home/ubuntu/
 mkdir drive
 chown -R ubuntu /home/ubuntu/drive
