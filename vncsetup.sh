@@ -104,6 +104,16 @@ sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transf
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive18: /home/ubuntu/zipdrive/gdrive18 && chmod 777 /home/ubuntu/zipdrive/gdrive18 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive18 & sleep 5 
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive19: /home/ubuntu/zipdrive/gdrive19 && chmod 777 /home/ubuntu/zipdrive/gdrive19 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive19 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive20: /home/ubuntu/zipdrive/gdrive20 && chmod 777 /home/ubuntu/zipdrive/gdrive20 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive20 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive21: /home/ubuntu/zipdrive/gdrive21 && chmod 777 /home/ubuntu/zipdrive/gdrive21 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive21 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive22: /home/ubuntu/zipdrive/gdrive22 && chmod 777 /home/ubuntu/zipdrive/gdrive22 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive22 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive23: /home/ubuntu/zipdrive/gdrive23 && chmod 777 /home/ubuntu/zipdrive/gdrive23 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive23 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive24: /home/ubuntu/zipdrive/gdrive24 && chmod 777 /home/ubuntu/zipdrive/gdrive24 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive24 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive25: /home/ubuntu/zipdrive/gdrive25 && chmod 777 /home/ubuntu/zipdrive/gdrive25 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive25 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive26: /home/ubuntu/zipdrive/gdrive26 && chmod 777 /home/ubuntu/zipdrive/gdrive26 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive26 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive27: /home/ubuntu/zipdrive/gdrive27 && chmod 777 /home/ubuntu/zipdrive/gdrive27 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive27 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive28: /home/ubuntu/zipdrive/gdrive28 && chmod 777 /home/ubuntu/zipdrive/gdrive28 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive28 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive29: /home/ubuntu/zipdrive/gdrive29 && chmod 777 /home/ubuntu/zipdrive/gdrive29 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive29 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive30: /home/ubuntu/zipdrive/gdrive30 && chmod 777 /home/ubuntu/zipdrive/gdrive30 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive30 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db1: /home/ubuntu/zipdrive/db1 && chmod 777 /home/ubuntu/zipdrive/db1 && chown -R ubuntu /home/ubuntu/zipdrive/db1 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db2: /home/ubuntu/zipdrive/db2 && chmod 777 /home/ubuntu/zipdrive/db2 && chown -R ubuntu /home/ubuntu/zipdrive/db2 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db3: /home/ubuntu/zipdrive/db3 && chmod 777 /home/ubuntu/zipdrive/db3 && chown -R ubuntu /home/ubuntu/zipdrive/db3 & sleep 5
@@ -155,6 +165,16 @@ sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transf
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive18: /home/ubuntu/zipdrive/gdrive18 && chmod 777 /home/ubuntu/zipdrive/gdrive18 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive18 & sleep 5 
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive19: /home/ubuntu/zipdrive/gdrive19 && chmod 777 /home/ubuntu/zipdrive/gdrive19 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive19 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive20: /home/ubuntu/zipdrive/gdrive20 && chmod 777 /home/ubuntu/zipdrive/gdrive20 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive20 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive21: /home/ubuntu/zipdrive/gdrive21 && chmod 777 /home/ubuntu/zipdrive/gdrive21 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive21 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive22: /home/ubuntu/zipdrive/gdrive22 && chmod 777 /home/ubuntu/zipdrive/gdrive22 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive22 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive23: /home/ubuntu/zipdrive/gdrive23 && chmod 777 /home/ubuntu/zipdrive/gdrive23 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive23 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive24: /home/ubuntu/zipdrive/gdrive24 && chmod 777 /home/ubuntu/zipdrive/gdrive24 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive24 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive25: /home/ubuntu/zipdrive/gdrive25 && chmod 777 /home/ubuntu/zipdrive/gdrive25 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive25 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive26: /home/ubuntu/zipdrive/gdrive26 && chmod 777 /home/ubuntu/zipdrive/gdrive26 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive26 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive27: /home/ubuntu/zipdrive/gdrive27 && chmod 777 /home/ubuntu/zipdrive/gdrive27 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive27 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive28: /home/ubuntu/zipdrive/gdrive28 && chmod 777 /home/ubuntu/zipdrive/gdrive28 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive28 & sleep 5 
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive29: /home/ubuntu/zipdrive/gdrive29 && chmod 777 /home/ubuntu/zipdrive/gdrive29 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive29 & sleep 5
+sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon gdrive30: /home/ubuntu/zipdrive/gdrive30 && chmod 777 /home/ubuntu/zipdrive/gdrive30 && chown -R ubuntu /home/ubuntu/zipdrive/gdrive30 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db1: /home/ubuntu/zipdrive/db1 && chmod 777 /home/ubuntu/zipdrive/db1 && chown -R ubuntu /home/ubuntu/zipdrive/db1 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db2: /home/ubuntu/zipdrive/db2 && chmod 777 /home/ubuntu/zipdrive/db2 && chown -R ubuntu /home/ubuntu/zipdrive/db2 & sleep 5
 sudo -u ubuntu rclone mount --allow-non-empty --dropbox-batch-mode sync --transfers=32 --dropbox-chunk-size 148M --fast-list --daemon db3: /home/ubuntu/zipdrive/db3 && chmod 777 /home/ubuntu/zipdrive/db3 && chown -R ubuntu /home/ubuntu/zipdrive/db3 & sleep 5
@@ -209,6 +229,16 @@ sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive17/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive18/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive19/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive20/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive21/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive22/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive23/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive24/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive25/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive26/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive27/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive28/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive29/cha
+sudo -u ubuntu mkdir /home/ubuntu/zipdrive/gdrive30/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db1/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db2/cha
 sudo -u ubuntu mkdir /home/ubuntu/zipdrive/db3/cha
