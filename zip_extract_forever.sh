@@ -153,7 +153,7 @@ echo "FUN_EXT_REM_START"
 if [ $upload_check -lt 200000 ]; then
 	 zip_count=0
      source_zip=`ls -lrth ${v_source_dir} |grep '.zip'|  head -1 | awk '{print $9}'`
-	 zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+	 zip_count=` find $find ${v_source_dir} -type f -name "*zip" -mmin +10 |wc -l`
 	 if [ $zip_count -gt 0 ] ; then 
 		echo "oldest file in $v_source_dir is $source_zip .."
 		if [ `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -le 0 ] && [ `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -le 0 ]; then
@@ -205,36 +205,38 @@ do
 	rm -rf /home/ubuntu/${ips}.${D}.txt
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
 	sleep 5
+	export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
 	head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
 	sleep 5
-	while [[ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 || `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt 22 ||  `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -gt 0 || $(df "$v_dest_dir" | sed -n '2p' | awk '{print $1}') != *"db${D}"* ]]; do
+	while [[ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 || `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt 22 ||  `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -gt 0 ]]; do
 		rm -rf /home/ubuntu/${ips}.${D}.txt
 		rm -rf ${v_dest_dir}/${ips}.${D}.txt
+		find /home/ubuntu/ -maxdepth 1 -type f -name "*${ips}*" -delete
 		sleep 5
 		export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
 		head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
 		sleep 5
-		if [ $D -gt $d_line_count ] ; then
-			echo Reset dari D = $D
-			export D=1
-			sleep 120
-		fi
 		if [ $D -le 0 ] ; then
 			D=1
 		else
 			D=$(($D + 1))
+		fi
+		if [ $D -gt $d_line_count ] ; then
+			echo Reset dari D = $D
+			export D=1
+			sleep 120
 		fi
 	done
 	rm -rf /home/ubuntu/${ips}.${D}.txt
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
 	
 	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
-	export zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+	export zip_count=` find $find ${v_source_dir} -type f -name "*zip" -mmin +10 |wc -l`
 	while [[ $zip_count -le 0 ||  `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
 		sleep 3
 		export v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
 		sleep 3
-		export zip_count=` find ${v_source_dir} -type f -name "*zip" -mmin +180 |wc -l`
+		export zip_count=` find $find ${v_source_dir} -type f -name "*zip" -mmin +10 |wc -l`
 		sleep 3
 		if [ $N -gt $s_line_count ] ; then
 			echo Reset dari N = $N
@@ -252,7 +254,7 @@ do
 	echo Asal Zip $v_source_dir
 	echo Tujuan Zip $v_dest_dir
 	export upload_check=$(fun_cpu_usage)
-	sleep 120
+	sleep 15
 	while [   `ps ux | grep unzip | grep -v grep | wc -l | awk '{ print $1}'` -ge  $max_unzip ]
 	do
 		sleep 60
