@@ -160,7 +160,13 @@ if [ $upload_check -lt 200000 ]; then
 			old_count_plot=`find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c`
 			echo "unzipping ${v_source_dir}/${source_zip} in $v_dest_dir .."
 			find ${v_dest_dir}/ -type f -size -100G -name \*.plot -delete
-			unzip -jo ${v_source_dir}/${source_zip} -d ${v_dest_dir}/
+			mkdir /home/ubuntu/source
+			mkdir /home/ubuntu/source/${N}
+			mkdir /home/ubuntu/destination
+			mkdir /home/ubuntu/destination/${D}
+			mv ${v_source_dir}/${source_zip} /home/ubuntu/source/${N}
+			unzip -jo /home/ubuntu/source/${N}/${source_zip} -d /home/ubuntu/destination/${D}
+			mv /home/ubuntu/destination/${D}/*.plot ${v_dest_dir}/
 			sleep 5
 			rm -rf ${v_source_dir}/${source_zip}
 			sleep 15
@@ -206,9 +212,13 @@ do
 	rm -rf ${v_dest_dir}/${ips}.${D}.txt
 	sleep 5
 	export  v_dest_dir=`cat /home/ubuntu/dest_dir_list.txt | sed -n "$D"P`
-	head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
+	if [ `df ${v_dest_dir}/ | awk 'NR==2 {print $4}'` -gt 1000 ]; then
+		echo ini drive rusak
+	else
+		head -c 1000000 </dev/urandom > /home/ubuntu/${ips}.${D}.txt && mv -f /home/ubuntu/${ips}.${D}.txt ${v_dest_dir}/
+	fi
 	sleep 5
-	while [[ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 || `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt 22 ||  `ps ux | grep unzip | grep "${v_dest_dir}" | wc -l` -gt 0 ]]; do
+	while [[ `ls ${v_dest_dir}/ | grep .txt | wc -l` -le 0 || `find ${v_dest_dir}/ -type f -size +100G -printf 1 | wc -c` -gt 22 || `ps ux | grep unzip | grep "/home/ubuntu/destination/${D}" | wc -l` -gt 0 ||  `ps ux | grep mv | grep "${v_dest_dir}" | wc -l` -gt 0 ]]; do
 		rm -rf /home/ubuntu/${ips}.${D}.txt
 		rm -rf ${v_dest_dir}/${ips}.${D}.txt
 		find /home/ubuntu/ -maxdepth 1 -type f -name "*${ips}*" -delete
@@ -232,7 +242,7 @@ do
 	
 	export  v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
 	export zip_count=` find $find ${v_source_dir} -type f -name "*zip" -mmin +10 |wc -l`
-	while [[ $zip_count -le 0 ||  `ps ux | grep unzip | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
+	while [[ $zip_count -le 0 || `ps ux | grep unzip | grep "/home/ubuntu/source/${N}" | wc -l` -gt 0 ||  `ps ux | grep mv | grep "${v_source_dir}" | wc -l` -gt 0 ]]; do
 		sleep 3
 		export v_source_dir=`cat /home/ubuntu/source_dir_list.txt | sed -n "$N"P`
 		sleep 3
