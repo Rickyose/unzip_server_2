@@ -5,6 +5,10 @@
 cd /home/ubuntu/
 mkdir mount
 mkdir db-chia-dropbox
+####### COPAS DIR_LIST DAN SOURCE_LIST .TXT
+cd /home/ubuntu/
+wget https://raw.githubusercontent.com/Rickyose/unzip_server_2/main/dest_dir_list.txt
+wget https://raw.githubusercontent.com/Rickyose/unzip_server_2/main/source_dir_list.txt
 ############################### Install Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
