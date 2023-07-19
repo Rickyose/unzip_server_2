@@ -9,9 +9,10 @@ mkdir db-chia-dropbox
 cd /home/ubuntu/
 wget https://raw.githubusercontent.com/Rickyose/unzip_server_2/main/dest_dir_list.txt
 wget https://raw.githubusercontent.com/Rickyose/unzip_server_2/main/source_dir_list.txt
-############################### Install Chrome
+############################### Install Chrome & 7zip
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt-get install p7zip-full -y
 ############################### Install rclone dan import config
 cd /root/
 sudo apt-get install fuse3 -y
